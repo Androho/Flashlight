@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Flashlight with screen</string>
+    <string name="error_text">The camera flash is not available!</string>
+    <string name="error_title">Error! No flash!</string>
+    <string name="exit_message">Exit</string>
+    <string name="propouse_title">Cancellation Ads</string>
+
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="app_ad_unit_id">ca-app-pub-3083984942959619~5517174082</string>
+    <string name="banner_ad_unit_id"> ca-app-pub-3083984942959619/6993907284</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-3083984942959619/3399482481</string>
+</resources>

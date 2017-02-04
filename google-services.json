@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "411767250750",
+    "firebase_url": "https://admob-app-id-4669993281.firebaseio.com",
+    "project_id": "admob-app-id-4669993281",
+    "storage_bucket": "admob-app-id-4669993281.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411767250750:android:a8e6cde54d412a07",
+        "android_client_info": {
+          "package_name": "ua.ho.andro.pmtracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "411767250750-tbpl0kvjboi9s84j39vlcfdhnccq125k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACTsiowBVHI5hjH-Mjujwlr42XG0ZR8S8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411767250750:android:bf829fa57e638c10",
+        "android_client_info": {
+          "package_name": "ua.ho.andro.flashlight"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "411767250750-tbpl0kvjboi9s84j39vlcfdhnccq125k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACTsiowBVHI5hjH-Mjujwlr42XG0ZR8S8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

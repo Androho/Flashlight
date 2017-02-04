@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Фонарик с экраном</string>
+    <string name="error_text">Вспышка камеры не доступна!</string>
+    <string name="error_title">Ошибка! Без вспышки!</string>
+    <string name="exit_message">Выход</string>
+    <string name="on">Вкл</string>
+    <string name="off">Выкл</string>
+    <string name="app_ad_unit_id">ca-app-pub-3083984942959619~5517174082</string>
+    <string name="banner_ad_unit_id"> ca-app-pub-3083984942959619/6993907284</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-3083984942959619/3399482481</string>
+</resources>
