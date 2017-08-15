@@ -8,10 +8,37 @@
     tools:context="ua.ho.andro.flashlight.MainActivity">
     <SurfaceView
         android:id="@+id/surfaceView"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/sb_bar"
+        android:layout_marginBottom="20dp">
     </SurfaceView>
+
+       <SeekBar
+        android:id="@+id/sb_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_photo"
+           android:max="10"
+           android:progress="3"
+           android:layout_marginRight="20dp"
+           android:thumb="@drawable/seek_thumb"
+           android:layout_marginBottom="15dp"
+           android:layout_alignLeft="@+id/my_switch"
+           android:layout_alignStart="@+id/my_switch" />
+
+    <Button
+        android:id="@+id/btn_setting"
+        android:background="@drawable/ic_setting"
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:layout_alignTop="@+id/my_switch"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp" />
     <Switch
         android:id="@+id/my_switch"
         android:layout_width="wrap_content"
@@ -26,6 +53,24 @@
         android:layout_above="@+id/adView"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"/>
+    <Button
+        android:id="@+id/btn_photo"
+        android:background="@drawable/ic_camera"
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:layout_alignBottom="@+id/my_switch"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp" />
+    <Button
+        android:id="@+id/btn_strobo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_strobo"
+        android:layout_above="@+id/btn_photo"
+        android:layout_alignLeft="@+id/btn_setting"
+        android:layout_alignStart="@+id/btn_setting" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
@@ -33,8 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        ads:adSize="MEDIUM_RECTANGLE"
+        ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id">
     </com.google.android.gms.ads.AdView>
-
 </RelativeLayout>

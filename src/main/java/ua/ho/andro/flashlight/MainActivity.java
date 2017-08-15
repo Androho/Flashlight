@@ -11,13 +11,21 @@ import android.hardware.Camera.Parameters;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.Toast;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnClickListener;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -27,8 +35,9 @@ import com.google.android.gms.ads.MobileAds;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback, SoundPool.OnLoadCompleteListener {
+public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, SurfaceHolder.Callback, SoundPool.OnLoadCompleteListener {
 
     private int sound;
     private SoundPool soundPool;
@@ -40,11 +49,16 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
     private List supportedFlashModes;
+    private SeekBar seekBar;
+    private Button btnStrobo, btnStopCam, btnSettings;
     private boolean previewIsRunning;
     private int countStarApp = 1;
+    private boolean isFlashOn;
     private SharedPreferences preferences;
     public static final String APP_PREFERENCES = "mysettings";
     public static final String APP_PREFERENCES_COUNTER = "counter";
+    private AlertDialog.Builder ad;
+    private Context context;
 
 
     @Override
@@ -55,27 +69,20 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
         mAdView = (AdView) findViewById(R.id.adView);
         mySwitch = (Switch) findViewById(R.id.my_switch);
-
+        seekBar = (SeekBar) findViewById(R.id.sb_bar);
+        btnStrobo = (Button) findViewById(R.id.btn_strobo);
+        btnStopCam = (Button) findViewById(R.id.btn_photo);
+        btnSettings =(Button) findViewById(R.id.btn_setting);
+        btnSettings.setOnClickListener(myListener);
+        btnStrobo.setOnClickListener(myListener);
+        btnStopCam.setOnClickListener(myListener);
+        seekBar.setOnSeekBarChangeListener(this);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
 
         //Couner
-        preferences=getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        if (countStarApp>10 & countStarApp<20){
-            // GooglePlay reit
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.propouse_title)
-                    .setMessage(R.string.error_text)
-                    .setPositiveButton(R.string.exit_message, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
+        preferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
-        }
         //
 
 //AdMob Interstitial
@@ -109,9 +116,13 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
+                    soundPool.play(sound, 1, 1, 0, 0, 1);
                     setFlashLigthOn();
+                    isFlashOn = true;
                 } else {
+                    soundPool.play(sound, 1, 1, 0, 0, 1);
                     setFlashLightOff();
+                    isFlashOn = false;
                 }
             }
         });
@@ -123,6 +134,29 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         } else {
             camera = Camera.open();
         }
+
+        ad = new AlertDialog.Builder(getApplicationContext());
+        ad.setTitle("title");  // заголовок
+        ad.setMessage("message"); // сообщение
+        ad.setPositiveButton("Pay", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                Toast.makeText(context, "Вы сделали правильный выбор",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+        ad.setNegativeButton("No, Senks", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                Toast.makeText(context, "Возможно вы правы", Toast.LENGTH_LONG)
+                        .show();
+            }
+        });
+        ad.setCancelable(true);
+        ad.setOnCancelListener(new OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {
+                Toast.makeText(context, "Вы ничего не выбрали",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void showCameraAlert() {
@@ -139,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 .show();
     }
 
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void createSoundPoolWithBuilder() {
         AudioAttributes attributes = new AudioAttributes.Builder()
@@ -154,7 +189,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     }
 
     private void setFlashLigthOn() {
-        soundPool.play(sound, 1, 1, 0, 0, 1);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -176,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     }
 
     private void setFlashLightOff() {
-        soundPool.play(sound, 1, 1, 0, 0, 1);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -244,8 +277,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             // Получаем число из настроек
             countStarApp = preferences.getInt(APP_PREFERENCES_COUNTER, 0);
             // Выводим на экран данные из настроек
-            countStarApp=countStarApp+1;
-            int i=countStarApp;
+            countStarApp = countStarApp + 1;
+            int i = countStarApp;
         }
     }
 
@@ -293,4 +326,81 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         releaseCamera();
     }
 
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        parameters.setZoom(progress);
+        camera.setParameters(parameters);
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    public View.OnClickListener myListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn_strobo:
+                    stroboscope();
+                    break;
+                case R.id.btn_photo:
+                    if (previewIsRunning) {
+                        camera.stopPreview();
+                        previewIsRunning = false;
+                    } else {
+                        camera.startPreview();
+                        previewIsRunning = true;
+                    }
+                    break;
+                case R.id.btn_setting:
+//                    Toast toast = Toast.makeText(getApplicationContext(),
+//                            R.string.toast_sorry, Toast.LENGTH_SHORT);
+                    //toast.show();
+
+                    ad.show();
+                    break;
+            }
+        }
+    };
+
+    private void stroboscope() {
+        if (!isFlashOn)
+            mySwitch.setChecked(true);
+        setFlashLigthOn();
+        for (int i = 0; i < 50; i++) {
+            setFlashLightOff();
+            try {
+                TimeUnit.MILLISECONDS.sleep(80);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            setFlashLigthOn();
+        }
+        if (!isFlashOn) {
+            mySwitch.setChecked(true);
+        }
+    }
 }
+
+//  counter for google
+//if (countStarApp>10 & countStarApp<20){
+//        // GooglePlay reit
+//        new AlertDialog.Builder(this)
+//        .setTitle(R.string.propouse_title)
+//        .setMessage(R.string.error_text)
+//        .setPositiveButton(R.string.exit_message, new DialogInterface.OnClickListener() {
+//@Override
+//public void onClick(DialogInterface dialog, int which) {
+//        finish();
+//        }
+//        })
+//        .setIcon(android.R.drawable.ic_dialog_alert)
+//        .show();
+//
+//        }

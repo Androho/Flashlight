@@ -10,4 +10,8 @@
     <string name="app_ad_unit_id">ca-app-pub-3083984942959619~5517174082</string>
     <string name="banner_ad_unit_id"> ca-app-pub-3083984942959619/6993907284</string>
     <string name="interstitial_ad_unit_id">ca-app-pub-3083984942959619/3399482481</string>
+    <string name="facebook_app_id">1289015354544665</string>
+    <string name="toast_sorry">Oh, this function is still being developed</string>
+
+    <string name="fb_login_protocol_scheme">fb1289015354544665</string>К
 </resources>
